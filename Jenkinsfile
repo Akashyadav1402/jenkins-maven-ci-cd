@@ -32,7 +32,7 @@ pipeline {
 
         stage('Upload to Nexus') {
             steps {
-        withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'admin', passwordVariable: 'admin')]) {
+        withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASS')]) {
             sh """
                 curl -v -u $admin:$admin \
                 --upload-file target/myapp-1.0.0.war \
@@ -48,7 +48,7 @@ pipeline {
 
      stage('Deploy to Tomcat'){
         steps {
-        withCredentials([usernamePassword(credentialsId: 'tomcat-creds', usernameVariable: 'jenkins', passwordVariable: 'jenkins')]) 
+        withCredentials([usernamePassword(credentialsId: 'tomcat-creds', usernameVariable: 'TOMCAT_USER', passwordVariable: 'TOMCAT_PASS')]) 
         {
           sh "curl -v --upload-file target/myapp-1.0.0.war '${TOMCAT_HOST}/manager/text/deploy?path=/myapp&update=true' --user $TOMCAT_USER:$TOMCAT_PASS"
         }     
