@@ -32,9 +32,9 @@ pipeline {
 
         stage('Upload to Nexus') {
             steps {
-        withCredentials([usernamePassword(credentialsId: 'nexus-creds', usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASS')]) {
+        withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'admin', passwordVariable: 'admin')]) {
             sh """
-                curl -v -u $NEXUS_USER:$NEXUS_PASS \
+                curl -v -u $admin:$admin \
                 --upload-file target/myapp-1.0.0.war \
                 http://localhost:8081/repository/maven-releases/com/example/myapp/1.0.0/myapp-1.0.0.war
             """
@@ -46,14 +46,14 @@ pipeline {
             }
         }
 
-     /stage('Deploy to Tomcat') {
-            steps {
-                deploy adapters: [tomcat8(credentialsId: "${TOMCAT_CREDENTIALS}", path: '', url: "${TOMCAT_URL}")],
-                       contextPath: '/myapp',
-                       war: 'target/myapp.war'
-            }
+     stage('Deploy to Tomcat'){
+        steps {
+        withCredentials([usernamePassword(credentialsId: 'tomcat-creds', usernameVariable: 'jenkins', passwordVariable: 'jenkins')]) 
+        {
+          sh "curl -v --upload-file target/myapp-1.0.0.war '${TOMCAT_HOST}/manager/text/deploy?path=/myapp&update=true' --user $TOMCAT_USER:$TOMCAT_PASS"
+        }     
         }
-    } 
+         }
 
     post {
         success {
