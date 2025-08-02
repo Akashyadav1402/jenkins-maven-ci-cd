@@ -6,7 +6,7 @@ pipeline {
         SONARQUBE_SERVER = 'SonarQube'
         NEXUS_CREDENTIALS = credentials('nexus-creds')
         //TOMCAT_CREDENTIALS = credentials('tomcat-creds')
-        TOMCAT_URL = 'http://tomcat-host:8080/manager/text'
+        TOMCAT_URL = 'http://tomcat-host:9080/manager/text'
     }
 
     stages {
