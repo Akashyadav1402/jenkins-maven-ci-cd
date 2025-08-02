@@ -2,17 +2,17 @@ pipeline {
     agent any
 
     environment {
-        MAVEN_HOME = tool 'Maven3'
-        SONARQUBE_SERVER = 'SonarQube'
-        NEXUS_CREDENTIALS = credentials('nexus-creds')
-        //TOMCAT_CREDENTIALS = credentials('tomcat-creds')
+        MAVEN_HOME = tool 'maven3'
+        SONARQUBE_SERVER = 'sonarqube'
+        NEXUS_CREDENTIALS = credentials('nexus)
+        TOMCAT_CREDENTIALS = credentials('tomcat-creds')
         TOMCAT_URL = 'http://tomcat-host:9080/manager/text'
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/deopura/jenkins-maven-ci-cd.git', branch: 'main'
+                git url: 'https://github.com/devpura/jenkins-maven-ci-cd.git', branch: 'main'
             }
         }
 
@@ -46,7 +46,7 @@ pipeline {
             }
         }
 
-     /*   stage('Deploy to Tomcat') {
+     /stage('Deploy to Tomcat') {
             steps {
                 deploy adapters: [tomcat8(credentialsId: "${TOMCAT_CREDENTIALS}", path: '', url: "${TOMCAT_URL}")],
                        contextPath: '/myapp',
@@ -62,4 +62,4 @@ pipeline {
         failure {
             echo '❌ Build or Deployment Failed!'
         }
-    } */
+    } 
