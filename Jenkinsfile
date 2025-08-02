@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/devpura/jenkins-maven-ci-cd.git', branch: 'main'
+                git url: 'https://github.com/Akashyadav1402/jenkins-maven-ci-cd.git', branch: 'main'
             }
         }
 
